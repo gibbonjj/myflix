@@ -14,4 +14,17 @@ Myflix::Application.routes.draw do
   resources :users, only: [:create]
   resources :sessions, only: [:create]
   get 'home', to: 'videos#index'
+  get 'my_queue', to: 'queue_items#index'
+  resources :queue_items, only: [:create, :destroy]
+  post 'update_queue', to: 'queue_items#update_queue'
+  resources :users, only: [:show]
+  get 'people', to: 'relationships#index'
+  resources :relationships, only: [:create, :destroy]
+  get 'forgot_password', to: 'forgot_passwords#new'
+  resources :forgot_passwords, only: [:create]
+  get 'forgot_password_confirmation', to: 'forgot_passwords#confirm'
+  resources :password_resets, only: [:show, :create]
+  get 'expired_token', to: 'password_resets#expired_token'
+  resources :invitations, only: [:new, :create]
+  get 'register/:token', to: 'users#new_with_invitation_token', as: 'register_with_token'
 end

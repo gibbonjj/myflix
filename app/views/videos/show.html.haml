@@ -8,6 +8,9 @@
           %h3= @video.title
           %span Rating: 4.5/5.0
         %p= @video.description
+        .actions
+          %a.btn.btn-primary(href="") Watch Now
+          = link_to "+ My Queue", queue_items_path(video_id: @video.id), method: :post, class: 'btn.btn-primary' unless current_user.queued_video?(@video)
 
 %section.reviews.container
   .row
@@ -15,7 +18,7 @@
       = form_for [@video, Review.new] do |f|
         %fieldset
           %label Rate this video
-          = f.select :rating, options_for_select([5,4,3,2,1].map { |number| [pluralize(number, "Star")]})
+          = f.select :rating, options_for_video_reviews
           %label Write Review
           = f.text_area :content, rows: 6, class: "span6"
         %fieldset.form-group.actions.clearfix
@@ -29,6 +32,7 @@
             %li.row
               .col-sm-2
                 %span Rating: #{review.rating} / 5
-                %p by <a href="">#{review.user.full_name}</a>
+                %p by
+                = link_to review.user.full_name, review.user
               .col-sm-8
                 %p= review.content

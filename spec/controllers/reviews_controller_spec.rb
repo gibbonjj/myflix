@@ -30,8 +30,36 @@ describe ReviewsController do
           expect(response).to redirect_to video
         end
       end
-      context "with invalid inputs"
+      context "with invalid inputs" do
+        it "does not create a new review" do
+          video = Fabricate(:video)
+          post :create, review: { rating: 4 }, video_id: video.id
+          expect(Review.count).to eq(0)
+        end
+        it "renders video show page" do
+          video = Fabricate(:video)
+          post :create, review: { rating: 4 }, video_id: video.id
+          expect(response).to render_template "videos/show"
+        end
+        it "sets @video" do
+          video = Fabricate(:video)
+          post :create, review: { rating: 4 }, video_id: video.id
+          expect(assigns(:video)).to eq(video)
+        end
+        it "sets @reviews" do
+          video = Fabricate(:video)
+          review = Fabricate(:review, video: video)
+          post :create, review: { rating: 4 }, video_id: video.id
+          expect(assigns(:reviews)).to match_array([review])
+        end
+      end
     end
-    context "with unauthenticated users"
+    context "with invalid authentication" do
+      it "redirects to sign in path" do
+        video = Fabricate(:video)
+        post :create, review: Fabricate.attributes_for(:review), video_id: video.id
+        expect(response).to redirect_to sign_in_path
+      end
+    end
   end
 end

@@ -13,6 +13,7 @@ gem 'bcrypt-ruby'
 gem 'fabrication'
 gem 'faker'
 gem 'sidekiq'
+gem "sentry-raven"
 
 group :development do
   gem 'sqlite3'
@@ -39,6 +40,5 @@ end
 group :production do
   gem 'pg'
   gem 'rails_12factor'
-  gem 'letter_opener'
 end
 

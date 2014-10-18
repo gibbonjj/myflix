@@ -12,6 +12,7 @@ gem 'bootstrap_form'
 gem 'bcrypt-ruby'
 gem 'fabrication'
 gem 'faker'
+gem 'sidekiq'
 
 group :development do
   gem 'sqlite3'
@@ -38,5 +39,6 @@ end
 group :production do
   gem 'pg'
   gem 'rails_12factor'
+  gem 'letter_opener'
 end
 
